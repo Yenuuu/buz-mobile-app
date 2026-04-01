@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../app/theme/app_colors.dart';
 
 /// Initial splash screen shown when the application starts.
 ///
-/// Later, this screen can be extended to:
-/// - initialize services
-/// - check authentication state
-/// - navigate to login or home
+/// This screen currently delays for a short duration and then
+/// navigates to the login screen.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -18,16 +17,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Timer? _navigationTimer;
+
   @override
   void initState() {
     super.initState();
 
-    // Temporary delay for splash preview.
-    Timer(const Duration(seconds: 3), () {
+    _navigationTimer = Timer(const Duration(seconds: 3), () {
       if (!mounted) return;
-
-      // TODO(Yenuli): Replace with actual navigation when login screen is ready.
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
     });
+  }
+
+  @override
+  void dispose() {
+    _navigationTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -39,7 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             children: [
               const Spacer(flex: 2),
-
               Container(
                 width: 150,
                 height: 150,
@@ -62,9 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 28),
-
               const Text(
                 'BuZ',
                 style: TextStyle(
@@ -74,9 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   letterSpacing: -1,
                 ),
               ),
-
               const SizedBox(height: 10),
-
               const Text(
                 'SMART BUS TRACKING SYSTEM',
                 textAlign: TextAlign.center,
@@ -87,9 +87,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   letterSpacing: 0.5,
                 ),
               ),
-
               const Spacer(),
-
               const Padding(
                 padding: EdgeInsets.only(bottom: 28),
                 child: Text(
