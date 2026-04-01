@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../app/theme/app_colors.dart';
+import '../../../core/widgets/app_logo.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 
 /// Login screen for passenger authentication.
 ///
-/// This is currently a UI-only implementation based on the design.
-/// Backend integration and validation can be added later.
+/// This screen is currently UI-focused and navigates to the home screen
+/// after tapping the login button.
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F8FC),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -25,33 +27,13 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 36),
+                const SizedBox(height: 40),
 
-                // Logo
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.12),
-                        blurRadius: 20,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.location_on,
-                      size: 32,
-                      color: AppColors.primary,
-                    ),
-                  ),
+                const AppLogo(
+                  logoSize: 58,
                 ),
 
-                const SizedBox(height: 28),
+                const SizedBox(height: 32),
 
                 const Text(
                   'Welcome Back',
@@ -62,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
 
                 const Text(
                   'Sign in to continue',
@@ -73,9 +55,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 36),
+                const SizedBox(height: 42),
 
-                // Email / Phone label
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -88,16 +69,15 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
 
                 const CustomTextField(
                   hintText: 'Enter your email or phone',
                   prefixIcon: Icons.person_outline,
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 22),
 
-                // Password header row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
@@ -113,14 +93,14 @@ class LoginScreen extends StatelessWidget {
                       'Forgot Password?',
                       style: TextStyle(
                         fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: AppColors.primary,
                       ),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
 
                 const CustomTextField(
                   hintText: '••••••••',
@@ -128,26 +108,26 @@ class LoginScreen extends StatelessWidget {
                   obscureText: true,
                 ),
 
-                const SizedBox(height: 28),
+                const SizedBox(height: 32),
 
                 CustomButton(
                   label: 'Login',
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Login tapped'),
-                      ),
+                    Navigator.pushReplacementNamed(
+                      context,
+                      AppRoutes.home,
                     );
                   },
                 ),
 
-                const SizedBox(height: 18),
+                const SizedBox(height: 22),
 
                 RichText(
                   text: const TextSpan(
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColors.textSecondary,
+                      fontWeight: FontWeight.w500,
                     ),
                     children: [
                       TextSpan(text: "Don't have an account? "),
