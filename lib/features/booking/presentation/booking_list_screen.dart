@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../app/theme/app_colors.dart';
 
-/// Booking list screen.
-///
-/// Displays available buses for a selected route and date.
-/// This is currently a UI-first implementation based on the design.
 class BookingListScreen extends StatelessWidget {
   const BookingListScreen({super.key});
 
@@ -22,72 +18,50 @@ class BookingListScreen extends StatelessWidget {
           style: TextStyle(
             color: AppColors.textPrimary,
             fontWeight: FontWeight.w800,
-            fontSize: 18,
           ),
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AppColors.textPrimary,
-            size: 20,
-          ),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               _RouteHeader(),
-              SizedBox(height: 18),
+              SizedBox(height: 20),
               _FilterRow(),
-              SizedBox(height: 22),
+              SizedBox(height: 20),
+
               _BusOptionCard(
-                badgeLabel: 'Fastest Option',
+                badge: 'Fastest Option',
                 title: 'Highway Express',
                 subtitle: 'Intercity Luxury • AC • Instant Booking',
                 price: 'Rs. 850',
-                departureTime: '08:30',
-                departurePlace: 'Galle Fort',
+                departure: '08:30',
+                arrival: '09:45',
+                from: 'Galle Fort',
+                to: 'Wadduwa Jn',
                 duration: '1h 15m',
-                routeInfo: 'Non-stop',
-                arrivalPlace: 'Wadduwa Jn',
-                arrivalTime: '09:45',
-                primaryButtonText: 'Book This Seat',
-                secondaryButtonText: '',
-                highlighted: true,
+                buttonText: 'Book This Seat',
               ),
+
               SizedBox(height: 16),
+
               _BusOptionCard(
-                badgeLabel: 'Cheapest Option',
+                badge: 'Cheapest Option',
                 title: 'SLTB Normal',
                 subtitle: 'Route 02 • Non AC',
                 price: 'Rs. 240',
-                departureTime: '08:15',
-                departurePlace: 'Galle Stand',
+                departure: '08:15',
+                arrival: '11:00',
+                from: 'Galle Stand',
+                to: 'Wadduwa City',
                 duration: '2h 45m',
-                routeInfo: '12 Stops',
-                arrivalPlace: 'Wadduwa City',
-                arrivalTime: '11:00',
-                primaryButtonText: 'Pay on Board',
-                secondaryButtonText: 'View Route Details',
-              ),
-              SizedBox(height: 16),
-              _BusOptionCard(
-                badgeLabel: '',
-                title: 'Semi-Luxury',
-                subtitle: 'Comfort Seating • Non-AC',
-                price: 'Rs. 420',
-                departureTime: '09:00',
-                departurePlace: 'Galle Fort',
-                duration: '2h 10m',
-                routeInfo: 'Limited Stops',
-                arrivalPlace: 'Wadduwa Jn',
-                arrivalTime: '11:10',
-                primaryButtonText: 'Select Seats',
-                secondaryButtonText: 'LKR Rates',
+                buttonText: 'Pay on Board',
               ),
             ],
           ),
@@ -97,7 +71,7 @@ class BookingListScreen extends StatelessWidget {
   }
 }
 
-/// Top route summary section.
+/// ROUTE HEADER
 class _RouteHeader extends StatelessWidget {
   const _RouteHeader();
 
@@ -107,91 +81,65 @@ class _RouteHeader extends StatelessWidget {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 14,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
-        children: const [
-          Expanded(
+        children: [
+          const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Galle → Wadduwa',
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.textPrimary,
                   ),
                 ),
-                SizedBox(height: 6),
+                SizedBox(height: 4),
                 Text(
                   'Today, 24 Oct',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textSecondary,
-                  ),
+                  style: TextStyle(color: AppColors.textSecondary),
                 ),
               ],
             ),
           ),
-          _AvailabilityPill(),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 8,
+            ),
+            decoration: BoxDecoration(
+              color: const Color(0xFFEAF1FF),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: const Text(
+              '12 Available',
+              style: TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          )
         ],
       ),
     );
   }
 }
 
-class _AvailabilityPill extends StatelessWidget {
-  const _AvailabilityPill();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEAF1FF),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: const Text(
-        '12 Available',
-        style: TextStyle(
-          color: AppColors.primary,
-          fontWeight: FontWeight.w700,
-          fontSize: 12,
-        ),
-      ),
-    );
-  }
-}
-
-/// Filter chips row.
+/// FILTERS
 class _FilterRow extends StatelessWidget {
   const _FilterRow();
 
   @override
   Widget build(BuildContext context) {
-    return const Wrap(
-      spacing: 10,
-      runSpacing: 10,
+    return const Row(
       children: [
-        _FilterChip(
-          label: 'Earliest First',
-          selected: true,
-        ),
-        _FilterChip(
-          label: 'AC Only',
-        ),
-        _FilterChip(
-          label: 'Lowest Fare',
-        ),
+        _FilterChip(label: 'Earliest First', selected: true),
+        SizedBox(width: 10),
+        _FilterChip(label: 'AC Only'),
+        SizedBox(width: 10),
+        _FilterChip(label: 'Lowest Fare'),
       ],
     );
   }
@@ -213,53 +161,44 @@ class _FilterChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: selected ? AppColors.primary : AppColors.white,
         borderRadius: BorderRadius.circular(16),
-        border: selected
-            ? null
-            : Border.all(color: const Color(0xFFDCE4F2)),
+        border: Border.all(color: const Color(0xFFDCE4F2)),
       ),
       child: Text(
         label,
         style: TextStyle(
           color: selected ? Colors.white : AppColors.textSecondary,
           fontWeight: FontWeight.w700,
-          fontSize: 12,
         ),
       ),
     );
   }
 }
 
-/// Single bus option card.
+/// BUS CARD
 class _BusOptionCard extends StatelessWidget {
   const _BusOptionCard({
-    required this.badgeLabel,
+    required this.badge,
     required this.title,
     required this.subtitle,
     required this.price,
-    required this.departureTime,
-    required this.departurePlace,
+    required this.departure,
+    required this.arrival,
+    required this.from,
+    required this.to,
     required this.duration,
-    required this.routeInfo,
-    required this.arrivalPlace,
-    required this.arrivalTime,
-    required this.primaryButtonText,
-    required this.secondaryButtonText,
-    this.highlighted = false,
+    required this.buttonText,
   });
 
-  final String badgeLabel;
+  final String badge;
   final String title;
   final String subtitle;
   final String price;
-  final String departureTime;
-  final String departurePlace;
+  final String departure;
+  final String arrival;
+  final String from;
+  final String to;
   final String duration;
-  final String routeInfo;
-  final String arrivalPlace;
-  final String arrivalTime;
-  final String primaryButtonText;
-  final String secondaryButtonText;
-  final bool highlighted;
+  final String buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -267,191 +206,121 @@ class _BusOptionCard extends StatelessWidget {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: highlighted
-            ? Border.all(color: const Color(0xFFBCD0FF), width: 1.2)
-            : null,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 14,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: const Color(0xFFBCD0FF)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (badgeLabel.isNotEmpty) ...[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-              decoration: BoxDecoration(
-                color: highlighted
-                    ? const Color(0xFFEAF1FF)
-                    : const Color(0xFFF5F7FB),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                badgeLabel,
-                style: const TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                ),
+          /// Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFEAF1FF),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              badge,
+              style: const TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+                fontSize: 11,
               ),
             ),
-            const SizedBox(height: 14),
-          ],
+          ),
+
+          const SizedBox(height: 12),
+
+          /// Title Row
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.directions_bus_filled_rounded,
-                color: AppColors.primary,
-                size: 22,
-              ),
+              const Icon(Icons.directions_bus, color: AppColors.primary),
               const SizedBox(width: 10),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               Text(
                 price,
                 style: const TextStyle(
-                  fontSize: 18,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
+                  fontSize: 16,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 18),
+
+          const SizedBox(height: 4),
+
+          Text(
+            subtitle,
+            style: const TextStyle(color: AppColors.textSecondary),
+          ),
+
+          const SizedBox(height: 14),
+
+          /// Time Row
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: _TimeBlock(
-                  time: departureTime,
-                  location: departurePlace,
-                  alignEnd: false,
-                ),
-              ),
+              _TimeColumn(time: departure, label: from),
               Column(
                 children: [
-                  Text(
-                    duration,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.trending_flat_rounded,
-                        size: 16,
-                        color: AppColors.textSecondary,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        routeInfo,
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
+                  Text(duration),
+                  const SizedBox(height: 4),
+                  const Text('→ Non-stop'),
                 ],
               ),
-              Expanded(
-                child: _TimeBlock(
-                  time: arrivalTime,
-                  location: arrivalPlace,
-                  alignEnd: true,
-                ),
-              ),
+              _TimeColumn(time: arrival, label: to),
             ],
           ),
-          const SizedBox(height: 18),
-          if (secondaryButtonText.isEmpty)
-            SizedBox(
-              width: double.infinity,
-              child: _PrimaryButton(label: primaryButtonText),
-            )
-          else
-            Row(
-              children: [
-                Expanded(
-                  child: _SecondaryButton(label: secondaryButtonText),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _PrimaryButton(label: primaryButtonText),
-                ),
-              ],
-            ),
+
+          const SizedBox(height: 16),
+
+          /// Button
+          _PrimaryButton(
+            label: buttonText,
+            onPressed: () {
+              Navigator.pushNamed(context, '/seat-selection');
+            },
+          ),
         ],
       ),
     );
   }
 }
 
-class _TimeBlock extends StatelessWidget {
-  const _TimeBlock({
+class _TimeColumn extends StatelessWidget {
+  const _TimeColumn({
     required this.time,
-    required this.location,
-    required this.alignEnd,
+    required this.label,
   });
 
   final String time;
-  final String location;
-  final bool alignEnd;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment:
-          alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
         Text(
           time,
           style: const TextStyle(
-            fontSize: 18,
             fontWeight: FontWeight.w800,
-            color: AppColors.textPrimary,
+            fontSize: 16,
           ),
         ),
         const SizedBox(height: 4),
         Text(
-          location,
-          textAlign: alignEnd ? TextAlign.end : TextAlign.start,
+          label,
           style: const TextStyle(
-            fontSize: 12,
             color: AppColors.textSecondary,
-            fontWeight: FontWeight.w500,
+            fontSize: 12,
           ),
         ),
       ],
@@ -459,18 +328,22 @@ class _TimeBlock extends StatelessWidget {
   }
 }
 
+/// PRIMARY BUTTON
 class _PrimaryButton extends StatelessWidget {
-  const _PrimaryButton({required this.label});
+  const _PrimaryButton({
+    required this.label,
+    required this.onPressed,
+  });
 
   final String label;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
-        elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -479,37 +352,8 @@ class _PrimaryButton extends StatelessWidget {
       child: Text(
         label,
         style: const TextStyle(
+          fontWeight: FontWeight.w700,
           color: Colors.white,
-          fontWeight: FontWeight.w700,
-          fontSize: 14,
-        ),
-      ),
-    );
-  }
-}
-
-class _SecondaryButton extends StatelessWidget {
-  const _SecondaryButton({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {},
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        side: const BorderSide(color: Color(0xFFDCE4F2)),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          color: AppColors.primary,
-          fontWeight: FontWeight.w700,
-          fontSize: 14,
         ),
       ),
     );
