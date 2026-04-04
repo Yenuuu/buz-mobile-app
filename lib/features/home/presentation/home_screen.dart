@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../app/theme/app_colors.dart';
 
 /// Passenger home screen.
@@ -166,7 +167,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 14),
 
-              const _BusCard(
+              _BusCard(
                 routeCode: 'EX1',
                 routeName: 'Colombo - Kandy',
                 busType: 'Highway Luxury',
@@ -174,11 +175,17 @@ class HomeScreen extends StatelessWidget {
                 eta: 'Arriving in 4m',
                 duration: '3h 15m',
                 fare: 'LKR 1,250',
+                onTrackPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.bookingList);
+                },
+                onDetailsPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.bookingList);
+                },
               ),
 
               const SizedBox(height: 14),
 
-              const _BusCard(
+              _BusCard(
                 routeCode: '138',
                 routeName: 'Maharagama',
                 busType: 'Ordinary NB-2901',
@@ -187,6 +194,12 @@ class HomeScreen extends StatelessWidget {
                 duration: '—',
                 fare: 'Track Details',
                 simple: true,
+                onTrackPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.bookingList);
+                },
+                onDetailsPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.bookingList);
+                },
               ),
             ],
           ),
@@ -284,6 +297,8 @@ class _BusCard extends StatelessWidget {
     required this.eta,
     required this.duration,
     required this.fare,
+    required this.onTrackPressed,
+    required this.onDetailsPressed,
     this.simple = false,
   });
 
@@ -295,6 +310,8 @@ class _BusCard extends StatelessWidget {
   final String duration;
   final String fare;
   final bool simple;
+  final VoidCallback onTrackPressed;
+  final VoidCallback onDetailsPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -407,7 +424,7 @@ class _BusCard extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: onTrackPressed,
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Color(0xFFD8E2F1)),
                     shape: RoundedRectangleBorder(
@@ -427,7 +444,7 @@ class _BusCard extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: onDetailsPressed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     elevation: 0,
@@ -436,9 +453,9 @@ class _BusCard extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: Text(
-                    simple ? 'Details' : 'Details',
-                    style: const TextStyle(
+                  child: const Text(
+                    'Details',
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                     ),
