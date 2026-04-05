@@ -7,6 +7,7 @@ import '../../features/booking/presentation/seat_selection_screen.dart';
 import '../../features/driver/presentation/driver_dashboard_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/splash/presentation/splash_screen.dart';
+import '../../features/tracking/presentation/tracking_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -16,6 +17,8 @@ class AppRoutes {
   static const String seatSelection = '/seat-selection';
   static const String driverDashboard = '/driver-dashboard';
   static const String adminDashboard = '/admin-dashboard';
+  static const String tracking = '/tracking';
+
 
   static Map<String, WidgetBuilder> routes = {
     splash: (_) => const SplashScreen(),
@@ -25,5 +28,6 @@ class AppRoutes {
     seatSelection: (_) => const SeatSelectionScreen(),
     driverDashboard: (_) => const DriverDashboardScreen(),
     adminDashboard: (_) => const AdminDashboardScreen(),
+    tracking: (_) => const TrackingScreen(),
   };
 }

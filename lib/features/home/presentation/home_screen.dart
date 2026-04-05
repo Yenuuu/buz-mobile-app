@@ -176,7 +176,7 @@ class HomeScreen extends StatelessWidget {
                 duration: '3h 15m',
                 fare: 'LKR 1,250',
                 onTrackPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.bookingList);
+                  Navigator.pushNamed(context, AppRoutes.tracking);
                 },
                 onDetailsPressed: () {
                   Navigator.pushNamed(context, AppRoutes.bookingList);
